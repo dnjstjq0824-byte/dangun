@@ -1,0 +1,516 @@
+openapi: 3.1.0
+info:
+  title: BN NEAR API
+  description: Master REST API for BN NEAR Global Hyperlocal Marketplace & Community Platform
+  version: 1.0.0
+  contact:
+    name: Booking Network Co., Ltd.
+servers:
+  - url: /api/v1
+    description: Primary API Gateway Base
+paths:
+  # ---------------- IDENTITY & AUTH ----------------
+  /auth/register:
+    post:
+      summary: User Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, nickname]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+                nickname: { type: string, minLength: 2, maxLength: 30 }
+                locale: { type: string, default: "ko-KR" }
+                country_code: { type: string, default: "KR" }
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Validation error
+
+  /auth/login:
+    post:
+      summary: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string }
+                password: { type: string }
+                device_id: { type: string }
+      responses:
+        '200':
+          description: Login successful with access and refresh tokens
+
+  /auth/refresh:
+    post:
+      summary: Refresh Access Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token: { type: string }
+      responses:
+        '200':
+          description: New token pair issued
+
+  /auth/logout:
+    post:
+      summary: Logout & Revoke Session
+      responses:
+        '200':
+          description: Logged out successfully
+
+  /me:
+    get:
+      summary: Get Current User Profile
+      responses:
+        '200':
+          description: Profile data
+    patch:
+      summary: Update Current User Profile
+      responses:
+        '200':
+          description: Profile updated
+    delete:
+      summary: Soft Delete User Account
+      responses:
+        '200':
+          description: Account marked for deletion
+
+  # ---------------- GEOGRAPHY & LOCATION ----------------
+  /countries:
+    get:
+      summary: List Supported Countries
+      responses:
+        '200':
+          description: List of countries
+
+  /cities:
+    get:
+      summary: List Supported Cities
+      parameters:
+        - name: country_code
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: List of cities
+
+  /neighborhoods/search:
+    get:
+      summary: Search Neighborhoods by query or proximity
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string }
+        - name: city_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: lat
+          in: query
+          schema: { type: number }
+        - name: lng
+          in: query
+          schema: { type: number }
+      responses:
+        '200':
+          description: Matching neighborhoods
+
+  /me/neighborhoods:
+    get:
+      summary: Get User's Registered Neighborhoods
+      responses:
+        '200':
+          description: User neighborhoods with verification status
+    post:
+      summary: Register Neighborhood
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [neighborhood_id]
+              properties:
+                neighborhood_id: { type: string, format: uuid }
+                is_primary: { type: boolean, default: true }
+      responses:
+        '201':
+          description: Neighborhood registered
+
+  /me/neighborhood-verifications:
+    post:
+      summary: Verify Neighborhood Location via GPS Fix
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [neighborhood_id, latitude, longitude, accuracy_meters]
+              properties:
+                neighborhood_id: { type: string, format: uuid }
+                latitude: { type: number }
+                longitude: { type: number }
+                accuracy_meters: { type: number }
+      responses:
+        '200':
+          description: Verification result with expiration date
+        '422':
+          description: Verification failed (out of boundary or insufficient accuracy)
+
+  # ---------------- MARKETPLACE LISTINGS ----------------
+  /listings:
+    get:
+      summary: List Marketplace Items with Geo and Filter Options
+      parameters:
+        - name: neighborhood_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: category_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: radius_meters
+          in: query
+          schema: { type: integer, default: 5000 }
+        - name: condition
+          in: query
+          schema: { type: string, enum: [NEW, LIKE_NEW, GOOD, FAIR, FOR_PARTS] }
+        - name: min_price
+          in: query
+          schema: { type: integer }
+        - name: max_price
+          in: query
+          schema: { type: integer }
+        - name: is_free
+          in: query
+          schema: { type: boolean }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [latest, distance, price_asc, price_desc], default: latest }
+      responses:
+        '200':
+          description: Paginated listings
+    post:
+      summary: Create New Marketplace Listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, description, category_id, condition, price_minor, currency_code, neighborhood_id]
+              properties:
+                title: { type: string, minLength: 2, maxLength: 100 }
+                description: { type: string, minLength: 5 }
+                category_id: { type: string, format: uuid }
+                condition: { type: string, enum: [NEW, LIKE_NEW, GOOD, FAIR, FOR_PARTS] }
+                price_minor: { type: integer, minimum: 0 }
+                currency_code: { type: string, default: "KRW" }
+                is_free: { type: boolean, default: false }
+                is_negotiable: { type: boolean, default: true }
+                neighborhood_id: { type: string, format: uuid }
+                media_asset_ids:
+                  type: array
+                  items: { type: string, format: uuid }
+      responses:
+        '201':
+          description: Listing created
+
+  /listings/{id}:
+    get:
+      summary: Get Listing Detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Listing details with seller profile
+    patch:
+      summary: Update Listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Listing updated
+    delete:
+      summary: Delete Listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Listing removed
+
+  /categories:
+    get:
+      summary: List Categories
+      responses:
+        '200':
+          description: Category tree
+
+  /me/favorites:
+    get:
+      summary: Get User's Favorited Listings
+      responses:
+        '200':
+          description: List of favorited listings
+    post:
+      summary: Toggle Favorite on Listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [listing_id]
+              properties:
+                listing_id: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Favorite state updated
+
+  # ---------------- CHAT & REALTIME ----------------
+  /conversations:
+    get:
+      summary: Get User's Conversations
+      responses:
+        '200':
+          description: List of conversations with last message and unread count
+    post:
+      summary: Start or Retrieve Conversation for a Listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [listing_id]
+              properties:
+                listing_id: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Conversation session record
+
+  /conversations/{id}/messages:
+    get:
+      summary: Get Message History for Conversation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: since_sequence
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: List of ordered messages
+    post:
+      summary: Send Message via REST fallback
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [client_message_id, body]
+              properties:
+                client_message_id: { type: string, format: uuid }
+                message_type: { type: string, enum: [TEXT, IMAGE, OFFER_PROPOSAL, MEETING_PROPOSAL], default: TEXT }
+                body: { type: string }
+      responses:
+        '201':
+          description: Message stored with sequence number
+
+  /conversations/{id}/read:
+    post:
+      summary: Mark Messages in Conversation as Read
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sequence_no]
+              properties:
+                sequence_no: { type: integer }
+      responses:
+        '200':
+          description: Read pointer updated
+
+  # ---------------- DEALS, OFFERS & REVIEWS ----------------
+  /listings/{id}/price-offers:
+    post:
+      summary: Send Price Offer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount_minor]
+              properties:
+                amount_minor: { type: integer, minimum: 0 }
+      responses:
+        '201':
+          description: Offer sent
+
+  /deals/{id}/reserve:
+    post:
+      summary: Reserve Item for Specific Buyer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [buyer_user_id]
+              properties:
+                buyer_user_id: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Item reserved successfully
+        '409':
+          description: Reservation conflict
+
+  /deals/{id}/seller-complete:
+    post:
+      summary: Seller Marks Deal as Sold
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Deal marked COMPLETED_CLAIMED
+
+  /deals/{id}/buyer-confirm:
+    post:
+      summary: Buyer Confirms Deal Receipt
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Deal marked COMPLETED_CONFIRMED, unlocking review
+
+  /deals/{id}/reviews:
+    post:
+      summary: Submit Transaction Review
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating]
+              properties:
+                rating: { type: integer, minimum: 1, maximum: 5 }
+                tags: { type: array, items: { type: string } }
+                comment: { type: string }
+      responses:
+        '201':
+          description: Review recorded and manner score updated
+
+  # ---------------- COMMUNITY & BUSINESS ----------------
+  /community/posts:
+    get:
+      summary: List Community Posts in Neighborhood
+      parameters:
+        - name: neighborhood_id
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+        - name: category
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Community posts
+    post:
+      summary: Create Community Post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [neighborhood_id, title, body, category]
+              properties:
+                neighborhood_id: { type: string, format: uuid }
+                title: { type: string }
+                body: { type: string }
+                category: { type: string }
+      responses:
+        '201':
+          description: Post published
+
+  /businesses:
+    get:
+      summary: List Local Businesses by Neighborhood
+      parameters:
+        - name: neighborhood_id
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Local businesses
+
+  # ---------------- ADMIN & GOVERNANCE ----------------
+  /admin/dashboard:
+    get:
+      summary: Operational Dashboard KPIs
+      responses:
+        '200':
+          description: Live platform metrics

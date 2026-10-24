@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: bn_near_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: bn_near_db
+      POSTGRES_USER: bn_near
+      POSTGRES_PASSWORD: bn_near_secret_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../../database/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bn_near -d bn_near_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: bn_near_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: ../../
+      dockerfile: infrastructure/docker/Dockerfile.api
+    container_name: bn_near_api
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://bn_near:bn_near_secret_password@postgres:5432/bn_near_db?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: bn-near-super-secure-production-master-secret-key-32b
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ../../
+      dockerfile: infrastructure/docker/Dockerfile.worker
+    container_name: bn_near_worker
+    restart: always
+    environment:
+      DATABASE_URL: postgres://bn_near:bn_near_secret_password@postgres:5432/bn_near_db?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../../apps/web
+      dockerfile: ../../infrastructure/docker/Dockerfile.web
+    container_name: bn_near_web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      API_BASE_URL: http://api:8080/api/v1
+      WS_BASE_URL: ws://api:8080/api/v1/ws
+    depends_on:
+      - api
+
+  admin:
+    build:
+      context: ../../apps/admin
+      dockerfile: ../../infrastructure/docker/Dockerfile.admin
+    container_name: bn_near_admin
+    restart: always
+    ports:
+      - "3001:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
