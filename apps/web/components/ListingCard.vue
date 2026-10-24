@@ -50,3 +50,4 @@ const formatPrice = (minor: number, currency: string) => {
   return currency + ' ' + (minor / 100).toFixed(2)
 }
 </script>
+

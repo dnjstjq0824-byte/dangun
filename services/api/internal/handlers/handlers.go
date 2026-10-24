@@ -1068,3 +1068,4 @@ func (api *API) AdminListAuditLogs(w http.ResponseWriter, r *http.Request) {
 	logs, _ := api.Store.ListAuditLogs(50)
 	api.RespondJSON(w, http.StatusOK, logs)
 }
+

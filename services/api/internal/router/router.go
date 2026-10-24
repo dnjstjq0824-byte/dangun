@@ -194,3 +194,4 @@ func NewRouter(store storage.Storage, hub *chat.Hub) http.Handler {
 	handler = middleware.Recoverer(handler)
 	return handler
 }
+

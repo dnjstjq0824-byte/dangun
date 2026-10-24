@@ -35,3 +35,4 @@
 - **Mobile Web (< 1024px):**
   - Adapts to app-like experience with bottom navigation bar matching the Flutter layout.
   - Mobile touch-friendly swipe gallery, sliding drawers for filter selection, and fixed bottom CTA on product detail.
+

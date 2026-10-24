@@ -63,3 +63,4 @@ COMMIT;
 1. **Phase 1 (`COMPLETED_CLAIMED`):** The seller confirms handoff by tapping "Mark as Sold" in the chat screen. The buyer receives a prompt notification.
 2. **Phase 2 (`COMPLETED_CONFIRMED`):** The buyer confirms that the item was received as described.
 3. **Review Eligibility:** Only when the deal achieves `COMPLETED_CONFIRMED` (or after 48 hours without dispute from claim) do both parties unlock the ability to submit mutual reputation reviews. This eliminates fake review trading and spam ratings.
+

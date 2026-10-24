@@ -631,3 +631,4 @@ CREATE INDEX IF NOT EXISTS idx_chat_messages_conversation ON chat_messages (conv
 CREATE INDEX IF NOT EXISTS idx_deals_listing_status ON deals (listing_id, status);
 CREATE INDEX IF NOT EXISTS idx_reports_status_priority ON reports (status, priority, created_at);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_actor ON audit_logs (actor_id, created_at DESC);
+

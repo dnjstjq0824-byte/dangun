@@ -18,3 +18,4 @@ To prevent deceptive commercial marketing and protect consumers:
 2. **Review:** Operational administrator reviews document validity and physical location alignment against neighborhood boundary.
 3. **Badge Issuance:** Upon administrative approval, the merchant profile receives the "Verified Local Business" badge.
 4. **Differentiation:** Business posts are clearly distinguished from regular resident discussions with a "Local Merchant" banner to preserve organic community trust.
+

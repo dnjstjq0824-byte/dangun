@@ -18,3 +18,4 @@
   - `infrastructure/` (Docker Compose & Dockerfiles for API, Worker, Web, Admin)
   - `services/` (Go 1.27 API and Worker microservices)
 - **Status:** All files ready for initial master commit.
+

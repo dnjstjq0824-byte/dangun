@@ -149,3 +149,4 @@
        ▼
 [Updated score reflected on user's public profile badge]
 ```
+

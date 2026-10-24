@@ -30,3 +30,4 @@ Where for each confirmed transaction review $i$:
 2. **One Review per Party per Deal:** A strict unique constraint `UNIQUE (deal_id, reviewer_user_id)` prevents repetitive rating stuffing.
 3. **Collusion Dampening:** If the same pair of users completes multiple transactions within 30 days, subsequent reviews have diminishing marginal temperature weight (100% -> 50% -> 10% -> 0%).
 4. **No Artificial Character Defamation:** The temperature score is explicitly labeled as an in-platform community manner metric and not a legal or personal character judgment.
+

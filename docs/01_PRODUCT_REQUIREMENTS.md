@@ -40,3 +40,4 @@ Unlike legacy classified boards or single-market apps:
 9. **Local Business Directory:** Verified merchant profiles, operating hours, local announcements.
 10. **Trust & Moderation:** Report triage, case escalation, enforcement actions, user appeals.
 11. **Admin Operations Console:** Web-based operational cockpit with role-based access control and tamper-proof audit trails.
+

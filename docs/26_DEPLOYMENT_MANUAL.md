@@ -41,3 +41,4 @@ docker-compose -f infrastructure/docker/docker-compose.yml ps
 # 3. Check API readiness
 curl http://localhost:8080/health
 ```
+

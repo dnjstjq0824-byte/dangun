@@ -61,3 +61,4 @@
 3. **Manner Temperature Badge:** Visual gauge displaying the user's reputation score (e.g. 36.5°C base standard, color-coded from slate to energetic emerald).
 4. **Chat Bubble Suite:** Alternating right-aligned (sender, primary teal background with white text) and left-aligned (receiver, subtle slate background with dark text) bubbles with message sequence and read status markers.
 5. **Deal Action Banner:** Sticky bottom sheet in chat facilitating "Make Offer", "Reserve", "Mark Sold", and "Write Review".
+

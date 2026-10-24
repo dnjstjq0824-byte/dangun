@@ -18,3 +18,4 @@
 | **Malicious Media Uploads** | File magic byte validation (JPEG, PNG, WebP only); EXIF metadata stripping; size limits | `services/worker/internal/media` |
 | **Tampered Location Fixes** | GPS accuracy thresholds, timestamp validity windows, velocity/teleportation heuristics | `services/api/internal/verification` |
 | **Admin Privilege Escalation** | Fine-grained RBAC matrix; immutable append-only audit logging of all admin mutations | `services/api/internal/admin` |
+

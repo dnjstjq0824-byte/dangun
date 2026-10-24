@@ -43,3 +43,4 @@
 | **TC-33** | Moderator Enforcement Action & User Appeal | Moderator sanctions user; user files appeal; senior admin reviews | Go Moderation API |
 | **TC-34** | Admin RBAC Permission Enforcement | Non-admin forbidden (403); Moderator restricted by role permissions | Go Admin RBAC |
 | **TC-35** | Tamper-Proof Audit Logging Integrity | All administrative mutations generate immutable audit records | Go Audit Log |
+

@@ -66,3 +66,4 @@
 | **REQ-APP-02** | Mobile | 5-Tab Navigation: HOME | COMMUNITY | SELL | CHATS | MY | Art. 6.1 | `apps/mobile` | Tab Navigation Test |
 | **REQ-APP-03** | Mobile | Native Location Permissions, GPS Fix & Verification UI | Art. 8.1, 9.3 | `apps/mobile` | Location Service Test |
 | **REQ-OPS-01** | Operations | Docker Compose stack for PostGIS, Redis, API, Worker, Web, Admin | Art. 4.6, 41 | `infrastructure/docker` | Container Health Test |
+

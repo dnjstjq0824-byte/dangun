@@ -99,3 +99,4 @@
 1. **Deduplication:** The tuple `(conversation_id, sender_user_id, client_message_id)` is enforced unique. Duplicate client submissions return the existing message sequence without re-persisting.
 2. **Monotonic Sequences:** Every persisted message is assigned an incremental integer `sequence_no` within the transaction.
 3. **Reconnection Catch-Up:** When a client reconnects, it sends `chat.sync` with its highest known sequence number. The server streams all missing messages in order.
+

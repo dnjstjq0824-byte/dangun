@@ -19,3 +19,4 @@ defineProps<{
   temperature: number
 }>()
 </script>
+

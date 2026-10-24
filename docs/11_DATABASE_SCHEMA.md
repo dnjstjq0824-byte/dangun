@@ -81,3 +81,4 @@
 - `moderation_cases`: Triage and investigation workbench case with admin decision records.
 - `enforcement_actions`: Sanctions (warning, restriction, suspension, ban).
 - `audit_logs`: Tamper-proof log of administrative actions.
+

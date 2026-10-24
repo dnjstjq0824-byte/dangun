@@ -36,3 +36,4 @@ flowchart TD
 
 ## 3. Privacy-Preserving Chat Evidence Review
 Moderators CANNOT browse private chats freely. When a user reports a chat, the client submits a snapshot containing up to 10 surrounding messages as cryptographic evidence. This snapshot is sealed into the moderation case record and accessible only to authorized moderators with explicit audit logging of every view action.
+

@@ -84,3 +84,4 @@ onMounted(() => {
   loadBusinesses()
 })
 </script>
+

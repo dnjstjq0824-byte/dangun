@@ -14,3 +14,4 @@
 ## 2. Technical Boundaries
 1. **GPS Jitter at Edges:** Users standing within 10-20 meters of an administrative boundary line may experience occasional verification failures due to GPS multi-path reflection; an accuracy-weighted buffer tolerance is provided to mitigate this.
 2. **Offline Image Sync:** Full offline photo synchronization is scheduled for subsequent mobile app iterations.
+

@@ -30,3 +30,4 @@
 - **Goal:** Rapidly investigate reported listings, toxic chats, or spam bots, enforcing terms fairly with audit logging.
 - **Pain Points:** Lack of contextual evidence, privacy overreach concerns, backlog buildup.
 - **Key Features Used:** Privacy-redacted chat evidence inspector, triage queue, enforcement actions, appeal review.
+

@@ -32,3 +32,4 @@ The following modules are strictly governed by legal and regulatory frameworks a
 - **Real Estate & Automotive Brokerage:** Requires state brokerage licenses.
 - **Jobs & Employment Matching:** Subject to labor intermediary regulations.
 - **Paid Advertising / Sponsored Listings:** Post-launch commercial feature.
+

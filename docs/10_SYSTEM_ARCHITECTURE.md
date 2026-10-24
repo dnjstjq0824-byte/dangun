@@ -72,3 +72,4 @@ flowchart TD
 2. **WebSocket Sequence Guarantee:** Chat messages are assigned sequential monotonically increasing sequence numbers per conversation within a database transaction. Clients confirm receipt with ACKs, and reconnection protocols synchronize missed sequence ranges seamlessly.
 3. **Reservation Row-Level Locking:** To eliminate double-booking or race conditions when multiple buyers attempt to reserve an item, the Deal Engine uses optimistic versioning (`version BIGINT`) and strict database transactions.
 4. **Zero-Knowledge GPS Policy:** The system strictly separates internal raw coordinates (processed transiently for verification calculations and immediately discarded) from public catalog representations (which only store neighborhood IDs or randomized centroid offsets).
+

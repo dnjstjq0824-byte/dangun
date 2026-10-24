@@ -45,3 +45,4 @@ func HaversineDistanceMeters(lat1, lon1, lat2, lon2 float64) float64 {
 2. **Scoring Formula:**
    $$ \text{Score} = w_1 \cdot \text{TextMatch} + w_2 \cdot \frac{1}{1 + \text{Distance}} + w_3 \cdot \frac{1}{1 + \text{AgeHours}} $$
 3. **Status Filter:** Only items with status `ACTIVE` or `RESERVED` are returned in public searches. `SOLD` or `ARCHIVED` items are excluded unless queried directly by participants.
+

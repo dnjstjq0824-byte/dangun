@@ -32,3 +32,4 @@
   1. Inspect `location_verification_attempts` for error reason codes.
   2. Verify polygon geometry using GeoJSON validator in Admin Console.
   3. Re-import official municipal boundary GeoJSON.
+

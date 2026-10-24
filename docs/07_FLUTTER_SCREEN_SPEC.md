@@ -50,3 +50,4 @@ The bottom navigation bar persists across all top-level destinations:
   - Star rating picker (1 to 5 stars).
   - Quick positive / constructive tags ("Punctual", "Friendly", "Great condition", etc.).
   - Optional written comment.
+

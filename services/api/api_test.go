@@ -367,3 +367,4 @@ func TestCompleteHyperlocalMarketplaceLifecycle(t *testing.T) {
 		t.Fatalf("TC-35: Audit log query failed: %s", auditResp.Body.String())
 	}
 }
+

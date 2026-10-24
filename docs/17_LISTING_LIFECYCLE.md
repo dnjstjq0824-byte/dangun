@@ -29,3 +29,4 @@ stateDiagram-v2
 - **`RESERVED -> ACTIVE`**: Can be triggered by seller (e.g., buyer cancelled/no-show) or by system if auto-expiry window triggers.
 - **`RESERVED -> SOLD`**: Can ONLY transition when the associated deal record reaches `COMPLETED_CLAIMED` or `COMPLETED_CONFIRMED`. Sets `sold_at = now()`.
 - **`ACTIVE/RESERVED -> REMOVED`**: Restricted to platform moderators or super administrators upon substantiated violation report.
+

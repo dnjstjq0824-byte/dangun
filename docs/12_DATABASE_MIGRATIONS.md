@@ -40,3 +40,4 @@ Production-like seed fixtures are loaded from `database/fixtures/seed_data.sql` 
   - New York: Brooklyn - Williamsburg, Manhattan - SoHo.
 - 12 top-level product categories with localized names and SVG icons.
 - Pre-seeded test accounts for buyers, sellers, merchants, and platform administrators.
+

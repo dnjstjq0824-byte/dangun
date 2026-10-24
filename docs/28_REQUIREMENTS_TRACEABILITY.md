@@ -35,3 +35,4 @@
 | **REQ-ADM-07** Audit Logging | `docs/11_DATABASE_SCHEMA.md` | `services/api/internal/admin` | `TC-35` | VERIFIED |
 | **REQ-APP-01** Flutter Mobile App | `docs/07_FLUTTER_SCREEN_SPEC.md` | `apps/mobile` | `Flutter Analyze` | VERIFIED |
 | **REQ-SEO-01** Nuxt 3 Public Web | `docs/08_WEB_SCREEN_SPEC.md` | `apps/web` | `Nuxt Build` | VERIFIED |
+

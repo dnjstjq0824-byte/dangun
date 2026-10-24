@@ -46,3 +46,4 @@ Process:
 - A user may register a maximum of **2 active neighborhoods** (e.g. Home and Workplace).
 - Consecutive failed attempts are limited to **5 attempts per hour** per user IP/account.
 - Re-verification is required every **30 days**.
+

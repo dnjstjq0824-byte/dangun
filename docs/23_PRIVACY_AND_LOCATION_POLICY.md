@@ -11,3 +11,4 @@
 3. **Public Coordinate Approximation:** When displaying an item or community post, the platform displays ONLY the neighborhood administrative name (e.g. "Cheongna-dong") or a randomized centroid offset (> 500 meters from any actual residence).
 4. **No Continuous Tracking:** The platform does NOT record background location breadcrumbs or continuous movement tracking.
 5. **Right to Erasure:** Users can revoke neighborhood associations and delete their account and associated metadata at any time.
+

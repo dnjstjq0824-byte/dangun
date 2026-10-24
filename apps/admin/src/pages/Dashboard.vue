@@ -84,3 +84,4 @@ onMounted(() => {
   loadStats()
 })
 </script>
+
