@@ -16,7 +16,9 @@ func NewRouter(store storage.Storage, hub *chat.Hub) http.Handler {
 
 	// 1. System & Health
 	mux.HandleFunc("/health", api.Health)
+	mux.HandleFunc("/healthz", api.Health)
 	mux.HandleFunc("/ready", api.Ready)
+	mux.HandleFunc("/readyz", api.Ready)
 
 	// 2. WebSocket Gateway
 	mux.HandleFunc("/api/v1/ws", func(w http.ResponseWriter, r *http.Request) {
@@ -45,7 +47,13 @@ func NewRouter(store storage.Storage, hub *chat.Hub) http.Handler {
 		case path == "/api/v1/cities" && method == http.MethodGet:
 			api.ListCities(w, r)
 			return
-		case path == "/api/v1/neighborhoods/search" && method == http.MethodGet:
+		case (path == "/api/v1/health" || path == "/healthz") && method == http.MethodGet:
+			api.Health(w, r)
+			return
+		case (path == "/api/v1/ready" || path == "/readyz") && method == http.MethodGet:
+			api.Ready(w, r)
+			return
+		case (path == "/api/v1/neighborhoods" || path == "/api/v1/neighborhoods/search") && method == http.MethodGet:
 			api.SearchNeighborhoods(w, r)
 			return
 		case path == "/api/v1/categories" && method == http.MethodGet:

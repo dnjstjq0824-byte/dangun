@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bn-near
+  labels:
+    app.kubernetes.io/name: bn-near
+    app.kubernetes.io/part-of: bn-near-platform

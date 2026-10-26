@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: bn_near_prod_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bn_near_db}
+      POSTGRES_USER: ${POSTGRES_USER:-bn_near}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bn_near_secret_password}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ../../database/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bn_near} -d ${POSTGRES_DB:-bn_near_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: bn_near_prod_redis
+    restart: always
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: ../../
+      dockerfile: infrastructure/docker/Dockerfile.api
+    container_name: bn_near_prod_api
+    restart: always
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://${POSTGRES_USER:-bn_near}:${POSTGRES_PASSWORD:-bn_near_secret_password}@postgres:5432/${POSTGRES_DB:-bn_near_db}?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: ${JWT_SECRET:-bn-near-super-secure-production-master-secret-key-32b}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ../../
+      dockerfile: infrastructure/docker/Dockerfile.worker
+    container_name: bn_near_prod_worker
+    restart: always
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-bn_near}:${POSTGRES_PASSWORD:-bn_near_secret_password}@postgres:5432/${POSTGRES_DB:-bn_near_db}?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../../apps/web
+      dockerfile: ../../infrastructure/docker/Dockerfile.web
+    container_name: bn_near_prod_web
+    restart: always
+    environment:
+      NODE_ENV: production
+      API_BASE_URL: http://api:8080/api/v1
+      WS_BASE_URL: ws://api:8080/api/v1/ws
+    depends_on:
+      - api
+
+  admin:
+    build:
+      context: ../../apps/admin
+      dockerfile: ../../infrastructure/docker/Dockerfile.admin
+    container_name: bn_near_prod_admin
+    restart: always
+    depends_on:
+      - api
+
+  proxy:
+    image: nginx:alpine
+    container_name: bn_near_prod_proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - web
+      - admin
+
+volumes:
+  postgres_prod_data:
+  redis_prod_data:
