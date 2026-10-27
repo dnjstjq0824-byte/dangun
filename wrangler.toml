@@ -7,3 +7,4 @@ command = "npm run build"
 
 [assets]
 directory = "./apps/web/dist"
+
