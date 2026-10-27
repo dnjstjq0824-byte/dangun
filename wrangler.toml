@@ -1,0 +1,9 @@
+name = "bn-near"
+compatibility_date = "2026-10-24"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
+
+[assets]
+directory = "./apps/web/dist"

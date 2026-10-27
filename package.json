@@ -1,0 +1,14 @@
+{
+  "name": "bn-near-root",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --dir apps/web build",
+    "build:web": "pnpm --dir apps/web build",
+    "build:admin": "pnpm --dir apps/admin build"
+  },
+  "devDependencies": {
+    "wrangler": "^4.152.0"
+  }
+}

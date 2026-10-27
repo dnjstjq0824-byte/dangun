@@ -77,3 +77,4 @@ BN NEAR supports automated rebuilding and deployment on Cloudflare via two produ
 | `apps/admin/public/_redirects` | 200 SPA fallback for Vue Router deep links | [`apps/admin/public/_redirects`](file:///c:/Users/dnjst/Desktop/project/danggun/apps/admin/public/_redirects) |
 | `apps/admin/public/_headers` | Security headers for Admin Cockpit | [`apps/admin/public/_headers`](file:///c:/Users/dnjst/Desktop/project/danggun/apps/admin/public/_headers) |
 | `ci/cloudflare-pages.yml` | GitHub Actions workflow for Wrangler API deployment | [`ci/cloudflare-pages.yml`](file:///c:/Users/dnjst/Desktop/project/danggun/ci/cloudflare-pages.yml) |
+
