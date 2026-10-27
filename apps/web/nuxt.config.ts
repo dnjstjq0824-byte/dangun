@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-10-24',
   devtools: { enabled: false },
   modules: ['@pinia/nuxt'],
+  nitro: {
+    preset: process.env.NITRO_PRESET || (process.env.CF_PAGES ? 'cloudflare-pages' : undefined)
+  },
   app: {
     head: {
       title: 'BN NEAR — 우리 동네의 모든 연결',

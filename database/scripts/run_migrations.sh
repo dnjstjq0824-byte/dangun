@@ -20,3 +20,4 @@ if [ "${SEED_DATA:-false}" = "true" ]; then
   psql "${DB_URL}" -f "$(dirname "$0")/../fixtures/seed_data.sql"
   echo "[BN-NEAR-DB] Seeding completed."
 fi
+

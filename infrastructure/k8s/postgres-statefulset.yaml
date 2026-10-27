@@ -67,3 +67,4 @@ spec:
   selector:
     app: postgres
   clusterIP: None
+

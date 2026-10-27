@@ -5,3 +5,4 @@ metadata:
   labels:
     app.kubernetes.io/name: bn-near
     app.kubernetes.io/part-of: bn-near-platform
+

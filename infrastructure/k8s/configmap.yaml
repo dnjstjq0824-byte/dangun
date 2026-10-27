@@ -12,3 +12,4 @@ data:
   REDIS_URL: "redis://redis.bn-near.svc.cluster.local:6379/0"
   API_BASE_URL: "http://api.bn-near.svc.cluster.local:8080/api/v1"
   WS_BASE_URL: "ws://api.bn-near.svc.cluster.local:8080/api/v1/ws"
+

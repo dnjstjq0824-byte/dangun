@@ -34,3 +34,4 @@ spec:
                 name: web
                 port:
                   number: 3000
+
